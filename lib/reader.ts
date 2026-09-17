@@ -1,5 +1,11 @@
 import { scopeSkillMap, type SkillMapSettings } from './skill-map.ts';
-import type { Chapter, Evidence, Profile } from './model.ts';
+import {
+  validateShowcase,
+  type Chapter,
+  type Evidence,
+  type Profile,
+  type ProjectShowcase,
+} from './model.ts';
 
 export type ReaderEvidence = Pick<
   Evidence,
@@ -21,6 +27,7 @@ export type ReaderProfile = Pick<
   evidence: ReaderEvidence[];
   chapters: Chapter[];
   skillMap?: SkillMapSettings;
+  showcase?: ProjectShowcase;
 };
 
 // Explicit allowlist: provenance, review state and legacy profile URLs never
@@ -31,6 +38,9 @@ export function readerProfile(profile: Profile): ReaderProfile {
     location: profile.location,
     headline: profile.headline,
     introduction: profile.introduction,
+    ...(profile.showcase
+      ? { showcase: validateShowcase(profile.showcase) }
+      : {}),
     evidence: profile.evidence.map((e) => ({
       id: e.id,
       kind: e.kind,

@@ -2548,3 +2548,203 @@ html:has([data-motion='off']) {
     margin-top: 0;
   }
 }
+
+/* Optional project evidence, supplied by an individual application snapshot. */
+.project-showcase {
+  margin: 0 6% 90px;
+  padding: 52px 0 24px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 38px 44px;
+  scroll-margin-top: 24px;
+}
+.project-copy {
+  min-width: 0;
+}
+.project-copy h2 {
+  margin: 16px 0 20px;
+  font-size: clamp(2rem, 3.6vw, 3.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.05em;
+  max-width: 12ch;
+}
+.project-summary {
+  color: var(--muted-foreground);
+  line-height: 1.75;
+  max-width: 57ch;
+}
+.project-technologies {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.project-technologies li {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.project-actions,
+.project-reading {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.project-actions .action {
+  font-size: 13px;
+}
+.project-reading {
+  margin-top: 24px;
+  gap: 20px;
+  font-size: 13px;
+}
+.project-reading a,
+.project-film figcaption a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.project-reading a:hover,
+.project-film figcaption a:hover {
+  color: var(--primary);
+}
+.project-film {
+  min-width: 0;
+  margin: 0;
+  align-self: center;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #101923;
+  box-shadow: 0 24px 90px #0003;
+}
+.project-film-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 16px 20px;
+  font: 11px var(--font-mono, monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #cbd5e1;
+}
+.project-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.project-film video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #090d14;
+}
+.project-film video:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -3px;
+}
+.project-film figcaption {
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 9px;
+  font-size: 11px;
+  color: #a8b5c5;
+}
+.project-scenarios {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.project-scenario {
+  min-width: 0;
+  position: relative;
+  padding: 23px 26px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #15212c, #0e151e);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.project-scenario:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+}
+.project-scenario-number {
+  font: 12px var(--font-mono, monospace);
+  color: var(--primary);
+}
+.project-scenario h3 {
+  margin: 17px 18px 10px 0;
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.project-scenario p {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+}
+.project-scenario-arrow {
+  position: absolute;
+  top: 23px;
+  right: 23px;
+  color: var(--primary);
+}
+.project-replay-note {
+  grid-column: 1 / -1;
+  margin: -20px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+@media (max-width: 1000px) {
+  .project-showcase {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .project-copy h2 {
+    max-width: none;
+  }
+  .project-summary {
+    max-width: 70ch;
+  }
+}
+@media (max-width: 650px) {
+  .project-showcase {
+    margin: 0 6% 55px;
+    padding-top: 32px;
+  }
+  .project-scenarios {
+    grid-template-columns: 1fr;
+  }
+  .project-scenario {
+    padding: 20px;
+  }
+  .project-scenario h3 {
+    margin-top: 10px;
+  }
+  .project-reading {
+    gap: 16px;
+  }
+  .project-replay-note {
+    margin-top: -10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-scenario {
+    transition: none;
+  }
+  .project-scenario:hover {
+    transform: none;
+  }
+}

@@ -10,6 +10,7 @@ import {
   preparePublication,
 } from '../lib/publication.ts';
 import { createSnapshot, type Profile } from '../lib/model.ts';
+import { validatePublication } from '../lib/publication.ts';
 import {
   loadPublication,
   readPrivateJson,
@@ -40,6 +41,48 @@ function profile(): Profile {
     })),
   };
 }
+await test('application-only showcase survives publication transport without leaking to home', () => {
+  const snapshot = profile();
+  snapshot.showcase = {
+    eyebrow: 'Project',
+    title: 'Example',
+    summary: 'Summary',
+    technologies: [],
+    demoUrl: 'https://example.org/demo',
+    repositoryUrl: 'https://example.org/code',
+    engineeringUrl: 'https://example.org/design',
+    video: {
+      url: 'https://example.org/film.mp4',
+      posterUrl: 'https://example.org/poster.png',
+      captionsUrl: 'https://example.org/en.vtt',
+      transcriptUrl: 'https://example.org/transcript',
+      label: 'Walkthrough',
+    },
+    scenarios: [
+      {
+        title: 'Retry',
+        description: 'Summary',
+        url: 'https://example.org/#retry',
+      },
+    ],
+  };
+  const publication = validatePublication(
+    preparePublication(profile(), [
+      {
+        id: 'demo',
+        status: 'published',
+        company: 'Company',
+        role: 'Role',
+        snapshot,
+      },
+    ]),
+  );
+  assert.equal(publication.home.profile.showcase, undefined);
+  assert.deepEqual(
+    publication.applications[0].page.profile.showcase,
+    snapshot.showcase,
+  );
+});
 
 await test('publishes only approved snapshots and excludes private provenance', () => {
   const p = profile();

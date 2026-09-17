@@ -17,6 +17,7 @@ import { skillGroups } from '@/lib/expertise';
 import { ExpertiseExplorer } from './expertise-explorer';
 import { usePageMotion } from './use-page-motion';
 import { CareerAtlas } from './career-atlas';
+import { ProjectShowcase } from './project-showcase';
 
 // Older application snapshots have no editorial chapter data. Group only the
 // records in that snapshot; never fetch the owner's wider career as a fallback.
@@ -124,6 +125,7 @@ export function CareerStory({
           {profile.name}
         </a>
         <nav aria-label="Main navigation">
+          {profile.showcase && <a href="#demo">Demo</a>}
           <a href="#journey">Story</a>
           <a href="#expertise">Skills & tools</a>
           {education.length > 0 && (
@@ -163,6 +165,7 @@ export function CareerStory({
             </button>
           }
         />
+        {profile.showcase && <ProjectShowcase project={profile.showcase} />}
         <div className="journey-layout" id="journey">
           <aside className="chapter-index">
             <p className="eyebrow">The journey</p>

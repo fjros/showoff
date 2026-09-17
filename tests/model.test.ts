@@ -4,6 +4,7 @@ import {
   createSnapshot,
   safeUrl,
   validateProfile,
+  validateShowcase,
   type Profile,
 } from '../lib/model.ts';
 import { groupEntries, readerProfile } from '../lib/reader.ts';
@@ -39,6 +40,54 @@ const brief = {
   introduction: 'introduction',
   evidenceIds: ['b'],
 };
+await test('showcases publish only allowed fields and safe media/link URLs', () => {
+  const showcase = {
+    eyebrow: 'Project',
+    title: 'Working example',
+    summary: 'Summary',
+    technologies: ['Tool'],
+    demoUrl: 'https://example.org/demo',
+    repositoryUrl: 'https://example.org/code',
+    engineeringUrl: 'https://example.org/design',
+    video: {
+      url: 'https://example.org/demo.mp4',
+      posterUrl: 'https://example.org/poster.png',
+      captionsUrl: 'https://example.org/captions.vtt',
+      transcriptUrl: 'https://example.org/transcript',
+      label: 'Walkthrough',
+      privateNote: 'PRIVATE',
+    },
+    scenarios: [
+      {
+        title: 'Retry',
+        description: 'One operation',
+        url: 'https://example.org/#retry',
+        privateNote: 'PRIVATE',
+      },
+    ],
+    privateNote: 'PRIVATE',
+  };
+  const p = validateProfile({ ...profile(), showcase });
+  const reader = readerProfile(p);
+  assert.equal(reader.showcase?.video.url, showcase.video.url);
+  assert.ok(!JSON.stringify(reader).includes('PRIVATE'));
+  assert.equal(readerProfile(profile()).showcase, undefined);
+  for (const field of ['demoUrl', 'repositoryUrl', 'engineeringUrl'])
+    assert.throws(() =>
+      validateShowcase({ ...showcase, [field]: 'javascript:alert(1)' }),
+    );
+  for (const field of ['url', 'posterUrl', 'captionsUrl', 'transcriptUrl'])
+    assert.throws(() =>
+      validateShowcase({
+        ...showcase,
+        video: {
+          ...showcase.video,
+          [field]: 'https://user:pass@example.org/x',
+        },
+      }),
+    );
+  assert.throws(() => validateShowcase({ ...showcase, scenarios: [] }));
+});
 await test('rejects active and credential-bearing source URLs', () => {
   for (const value of [
     'javascript:alert(1)',

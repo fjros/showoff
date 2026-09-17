@@ -67,8 +67,12 @@ export function CareerAtlas({
           </h1>
           <p className="atlas-description">{profile.introduction}</p>
           <div className="atlas-actions">
-            <a className="action primary-action" href="#journey">
-              Read the story <ArrowDown size={18} />
+            <a
+              className="action primary-action"
+              href={profile.showcase ? '#demo' : '#journey'}
+            >
+              {profile.showcase ? 'See the project' : 'Read the story'}{' '}
+              <ArrowDown size={18} />
             </a>
             <a className="action" href="#expertise">
               Explore skills <ArrowUpRight size={18} />

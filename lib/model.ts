@@ -7,6 +7,23 @@ import {
 export type EvidenceKind = 'experience' | 'research' | 'education' | 'language';
 export type SkillGroup = { category: string; items: string[] };
 export type WorkLink = { label: string; url: string };
+export type ProjectShowcase = {
+  eyebrow: string;
+  title: string;
+  summary: string;
+  technologies: string[];
+  demoUrl: string;
+  repositoryUrl: string;
+  engineeringUrl: string;
+  video: {
+    url: string;
+    posterUrl: string;
+    captionsUrl: string;
+    transcriptUrl: string;
+    label: string;
+  };
+  scenarios: { title: string; description: string; url: string }[];
+};
 export type Chapter = {
   id: string;
   title: string;
@@ -43,6 +60,7 @@ export type Profile = {
   evidence: Evidence[];
   chapters?: Chapter[];
   skillMap?: SkillMapSettings;
+  showcase?: ProjectShowcase;
 };
 export type ProfileRecord = { profile: Profile; revision: number };
 export type Application = {
@@ -128,12 +146,51 @@ export function validateProfile(input: unknown): Profile {
     importStatus: p.importStatus as Profile['importStatus'],
     importNotes: p.importNotes.map((n) => string(n, 'import note')),
     evidence,
+    ...(p.showcase !== undefined
+      ? { showcase: validateShowcase(p.showcase) }
+      : {}),
     ...(p.skillMap !== undefined
       ? { skillMap: validateSkillMap(p.skillMap, evidence) }
       : {}),
     ...(p.chapters !== undefined
       ? { chapters: validateChapters(p.chapters, evidence) }
       : {}),
+  };
+}
+export function validateShowcase(input: unknown): ProjectShowcase {
+  if (!input || typeof input !== 'object')
+    throw new Error('Invalid project showcase.');
+  const s = input as ProjectShowcase;
+  if (
+    !Array.isArray(s.technologies) ||
+    s.technologies.length > 8 ||
+    !Array.isArray(s.scenarios) ||
+    !s.scenarios.length ||
+    s.scenarios.length > 5 ||
+    !s.video ||
+    typeof s.video !== 'object'
+  )
+    throw new Error('Invalid project showcase.');
+  return {
+    eyebrow: string(s.eyebrow, 'showcase eyebrow', 100),
+    title: string(s.title, 'showcase title', 150),
+    summary: string(s.summary, 'showcase summary', 700),
+    technologies: s.technologies.map((t) => string(t, 'technology', 50)),
+    demoUrl: safeUrl(s.demoUrl),
+    repositoryUrl: safeUrl(s.repositoryUrl),
+    engineeringUrl: safeUrl(s.engineeringUrl),
+    video: {
+      url: safeUrl(s.video.url),
+      posterUrl: safeUrl(s.video.posterUrl),
+      captionsUrl: safeUrl(s.video.captionsUrl),
+      transcriptUrl: safeUrl(s.video.transcriptUrl),
+      label: string(s.video.label, 'video label', 150),
+    },
+    scenarios: s.scenarios.map((sc) => ({
+      title: string(sc?.title, 'scenario title', 150),
+      description: string(sc?.description, 'scenario description', 250),
+      url: safeUrl(sc?.url),
+    })),
   };
 }
 function validateSkills(input: unknown): SkillGroup[] {
