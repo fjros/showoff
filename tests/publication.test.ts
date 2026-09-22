@@ -44,7 +44,7 @@ function profile(): Profile {
 await test('application-only showcase survives publication transport without leaking to home', () => {
   const snapshot = profile();
   snapshot.showcase = {
-    placement: 'after-story',
+    placement: 'after-skills',
     eyebrow: 'Project',
     title: 'Example',
     summary: 'Summary',

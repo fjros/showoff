@@ -51,7 +51,7 @@ export function CareerStory({
   role?: string;
 }) {
   const chapters = chaptersFor(profile);
-  const showcaseAfterStory = profile.showcase?.placement === 'after-story';
+  const showcasePlacement = profile.showcase?.placement ?? 'before-story';
   const motion = usePageMotion();
   const [active, setActive] = useState(chapters[0]?.id ?? '');
   const [selected, setSelected] = useState<ReaderEvidence | null>(null);
@@ -126,10 +126,17 @@ export function CareerStory({
           {profile.name}
         </a>
         <nav aria-label="Main navigation">
-          {profile.showcase && !showcaseAfterStory && <a href="#demo">Demo</a>}
+          {profile.showcase && showcasePlacement === 'before-story' && (
+            <a href="#demo">Demo</a>
+          )}
           <a href="#journey">Story</a>
-          {profile.showcase && showcaseAfterStory && <a href="#demo">Demo</a>}
+          {profile.showcase && showcasePlacement === 'after-story' && (
+            <a href="#demo">Demo</a>
+          )}
           <a href="#expertise">Skills & tools</a>
+          {profile.showcase && showcasePlacement === 'after-skills' && (
+            <a href="#demo">Demo</a>
+          )}
           {education.length > 0 && (
             <button onClick={() => setSelected(education[0])}>
               Education <ArrowUpRight size={15} />
@@ -167,7 +174,7 @@ export function CareerStory({
             </button>
           }
         />
-        {profile.showcase && !showcaseAfterStory && (
+        {profile.showcase && showcasePlacement === 'before-story' && (
           <ProjectShowcase project={profile.showcase} />
         )}
         <div className="journey-layout" id="journey">
@@ -253,7 +260,7 @@ export function CareerStory({
             })}
           </div>
         </div>
-        {profile.showcase && showcaseAfterStory && (
+        {profile.showcase && showcasePlacement === 'after-story' && (
           <ProjectShowcase project={profile.showcase} />
         )}
         <ExpertiseExplorer
@@ -264,6 +271,9 @@ export function CareerStory({
           onSkill={setSelectedSkill}
           onSelect={setSelected}
         />
+        {profile.showcase && showcasePlacement === 'after-skills' && (
+          <ProjectShowcase project={profile.showcase} />
+        )}
         {education.length > 0 && (
           <section className="education-invitation">
             <div>

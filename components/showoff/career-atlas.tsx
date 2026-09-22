@@ -48,7 +48,8 @@ export function CareerAtlas({
   const chapter = chapters[focused];
   const names = profile.headline.split('\n');
   const showcaseLeads =
-    profile.showcase && profile.showcase.placement !== 'after-story';
+    profile.showcase &&
+    (profile.showcase.placement ?? 'before-story') === 'before-story';
   return (
     <section className="atlas-opening" aria-labelledby="story-title">
       <div className="atlas-intro">

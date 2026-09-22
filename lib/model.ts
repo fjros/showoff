@@ -8,7 +8,7 @@ export type EvidenceKind = 'experience' | 'research' | 'education' | 'language';
 export type SkillGroup = { category: string; items: string[] };
 export type WorkLink = { label: string; url: string };
 export type ProjectShowcase = {
-  placement?: 'before-story' | 'after-story';
+  placement?: 'before-story' | 'after-story' | 'after-skills';
   eyebrow: string;
   title: string;
   summary: string;
@@ -165,7 +165,8 @@ export function validateShowcase(input: unknown): ProjectShowcase {
   if (
     s.placement !== undefined &&
     s.placement !== 'before-story' &&
-    s.placement !== 'after-story'
+    s.placement !== 'after-story' &&
+    s.placement !== 'after-skills'
   )
     throw new Error('Invalid project showcase placement.');
   if (
