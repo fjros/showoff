@@ -8,6 +8,7 @@ export type EvidenceKind = 'experience' | 'research' | 'education' | 'language';
 export type SkillGroup = { category: string; items: string[] };
 export type WorkLink = { label: string; url: string };
 export type ProjectShowcase = {
+  placement?: 'before-story' | 'after-story';
   eyebrow: string;
   title: string;
   summary: string;
@@ -162,6 +163,12 @@ export function validateShowcase(input: unknown): ProjectShowcase {
     throw new Error('Invalid project showcase.');
   const s = input as ProjectShowcase;
   if (
+    s.placement !== undefined &&
+    s.placement !== 'before-story' &&
+    s.placement !== 'after-story'
+  )
+    throw new Error('Invalid project showcase placement.');
+  if (
     !Array.isArray(s.technologies) ||
     s.technologies.length > 8 ||
     !Array.isArray(s.scenarios) ||
@@ -172,6 +179,7 @@ export function validateShowcase(input: unknown): ProjectShowcase {
   )
     throw new Error('Invalid project showcase.');
   return {
+    ...(s.placement !== undefined ? { placement: s.placement } : {}),
     eyebrow: string(s.eyebrow, 'showcase eyebrow', 100),
     title: string(s.title, 'showcase title', 150),
     summary: string(s.summary, 'showcase summary', 700),

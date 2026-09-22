@@ -51,6 +51,7 @@ export function CareerStory({
   role?: string;
 }) {
   const chapters = chaptersFor(profile);
+  const showcaseAfterStory = profile.showcase?.placement === 'after-story';
   const motion = usePageMotion();
   const [active, setActive] = useState(chapters[0]?.id ?? '');
   const [selected, setSelected] = useState<ReaderEvidence | null>(null);
@@ -125,8 +126,9 @@ export function CareerStory({
           {profile.name}
         </a>
         <nav aria-label="Main navigation">
-          {profile.showcase && <a href="#demo">Demo</a>}
+          {profile.showcase && !showcaseAfterStory && <a href="#demo">Demo</a>}
           <a href="#journey">Story</a>
+          {profile.showcase && showcaseAfterStory && <a href="#demo">Demo</a>}
           <a href="#expertise">Skills & tools</a>
           {education.length > 0 && (
             <button onClick={() => setSelected(education[0])}>
@@ -165,7 +167,9 @@ export function CareerStory({
             </button>
           }
         />
-        {profile.showcase && <ProjectShowcase project={profile.showcase} />}
+        {profile.showcase && !showcaseAfterStory && (
+          <ProjectShowcase project={profile.showcase} />
+        )}
         <div className="journey-layout" id="journey">
           <aside className="chapter-index">
             <p className="eyebrow">The journey</p>
@@ -249,6 +253,9 @@ export function CareerStory({
             })}
           </div>
         </div>
+        {profile.showcase && showcaseAfterStory && (
+          <ProjectShowcase project={profile.showcase} />
+        )}
         <ExpertiseExplorer
           entries={profile.evidence}
           settings={profile.skillMap}

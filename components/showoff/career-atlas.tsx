@@ -47,6 +47,8 @@ export function CareerAtlas({
     setFocused((index + chapters.length) % chapters.length);
   const chapter = chapters[focused];
   const names = profile.headline.split('\n');
+  const showcaseLeads =
+    profile.showcase && profile.showcase.placement !== 'after-story';
   return (
     <section className="atlas-opening" aria-labelledby="story-title">
       <div className="atlas-intro">
@@ -69,9 +71,9 @@ export function CareerAtlas({
           <div className="atlas-actions">
             <a
               className="action primary-action"
-              href={profile.showcase ? '#demo' : '#journey'}
+              href={showcaseLeads ? '#demo' : '#journey'}
             >
-              {profile.showcase ? 'See the project' : 'Read the story'}{' '}
+              {showcaseLeads ? 'See the project' : 'Read the story'}{' '}
               <ArrowDown size={18} />
             </a>
             <a className="action" href="#expertise">
