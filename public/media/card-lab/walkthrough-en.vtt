@@ -1,0 +1,37 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+Card Authorization & Reconciliation Lab
+A guided look at recorded PostgreSQL tests. Synthetic funds; no live backend.
+
+00:00:05.000 --> 00:00:12.000
+01 / Capture creates an obligation
+100 authorized. A partial capture makes 60 payable and leaves 40 held.
+
+00:00:12.000 --> 00:00:19.000
+Expiry releases the remaining hold
+40 returns to available capacity. The 60 already payable stays payable.
+
+00:00:19.000 --> 00:00:26.000
+A valid late clearing still posts
+The remaining 40 clears after expiry. Payable reaches 100; the journal explains why.
+
+00:00:26.000 --> 00:00:33.000
+Reusing released capacity can create exposure
+In this variant, a later purchase uses capacity. Late clearing exposes a 30-unit shortfall.
+
+00:00:33.000 --> 00:00:41.000
+02 / A lost response leaves uncertainty
+The process dies after commit. The app keeps the hold until authoritative evidence arrives.
+
+00:00:41.000 --> 00:00:48.000
+Recovery releases the reservation once
+The processor decline resolves uncertainty. Replaying recovery adds no financial effect.
+
+00:00:48.000 --> 00:00:56.000
+03 / Equal totals can hide different transactions
+This deliberate identity-substitution fixture totals 100 on both sides, yet two rows differ.
+
+00:00:56.000 --> 00:01:03.000
+Inspect the guarantees and their limits
+Explore the architecture, crash tests and measured limits, including recovery backlog.

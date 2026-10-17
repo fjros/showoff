@@ -1,0 +1,74 @@
+{
+  "title": "Card Authorization & Reconciliation Lab walkthrough",
+  "capturedOn": "2026-10-17",
+  "durationSeconds": 63,
+  "format": "Silent edited screenshots of the recorded-evidence viewer, with open captions and a WebVTT track. Not continuous live execution.",
+  "source": "https://fjros.github.io/card-authorization-lab/",
+  "scenes": [
+    {
+      "image": "intro",
+      "durationSeconds": 5,
+      "title": "Card Authorization & Reconciliation Lab",
+      "caption": "A guided look at recorded PostgreSQL tests. Synthetic funds; no live backend."
+    },
+    {
+      "image": "partial",
+      "durationSeconds": 7,
+      "title": "01 / Capture creates an obligation",
+      "caption": "100 authorized. A partial capture makes 60 payable and leaves 40 held."
+    },
+    {
+      "image": "expiry",
+      "durationSeconds": 7,
+      "title": "Expiry releases the remaining hold",
+      "caption": "40 returns to available capacity. The 60 already payable stays payable."
+    },
+    {
+      "image": "late",
+      "durationSeconds": 7,
+      "title": "A valid late clearing still posts",
+      "caption": "The remaining 40 clears after expiry. Payable reaches 100; the journal explains why."
+    },
+    {
+      "image": "exposure",
+      "durationSeconds": 7,
+      "title": "Reusing released capacity can create exposure",
+      "caption": "In this variant, a later purchase uses capacity. Late clearing exposes a 30-unit shortfall."
+    },
+    {
+      "image": "unknown",
+      "durationSeconds": 8,
+      "title": "02 / A lost response leaves uncertainty",
+      "caption": "The process dies after commit. The app keeps the hold until authoritative evidence arrives."
+    },
+    {
+      "image": "recovered",
+      "durationSeconds": 7,
+      "title": "Recovery releases the reservation once",
+      "caption": "The processor decline resolves uncertainty. Replaying recovery adds no financial effect."
+    },
+    {
+      "image": "reconciliation",
+      "durationSeconds": 8,
+      "title": "03 / Equal totals can hide different transactions",
+      "caption": "This deliberate identity-substitution fixture totals 100 on both sides, yet two rows differ."
+    },
+    {
+      "image": "engineering",
+      "durationSeconds": 7,
+      "title": "Inspect the guarantees and their limits",
+      "caption": "Explore the architecture, crash tests and measured limits, including recovery backlog."
+    }
+  ],
+  "captureLinks": [
+    "https://fjros.github.io/card-authorization-lab/",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s1&step=1#replay",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s1&step=3#replay",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s1&step=4#replay",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s1-exposure&step=5#replay",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s2&step=0#replay",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s2&step=3#replay",
+    "https://fjros.github.io/card-authorization-lab/?scenario=s3-offset&step=0#replay",
+    "https://fjros.github.io/card-authorization-lab/#engineering"
+  ]
+}
